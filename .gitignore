@@ -1,0 +1,4 @@
+virtual_env
+flask_session
+__pycache__
+project/__pycache__

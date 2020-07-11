@@ -1,0 +1,12 @@
+html, body {
+  height:100%;
+} 
+
+body {
+  background-color: rgb(17, 15, 25);
+  background-image: linear-gradient(to left, rgb(17, 15, 25) 65%, transparent 80%), 
+  linear-gradient(to top, rgb(17, 15, 25) 5%, transparent 80%), url('/static/bgimage.jpg');
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
