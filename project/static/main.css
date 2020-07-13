@@ -29,8 +29,7 @@ body {
   width: 480px;
   min-height: 250px;
   text-align: center;
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  
+  font-family: 'Courier New', Courier, monospace;
   opacity: 60%;
   position: right;
   animation-name: fade-in;
@@ -55,7 +54,7 @@ body {
 
 #txt {
   color: rgb(168, 141, 139);
-  font-family: monospace;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 16px;
   padding-bottom: 1rem;
 }
@@ -66,11 +65,13 @@ body {
   border: none;
   color: rgb(17, 15, 25);
   cursor: pointer;
-  font-size: 15px;
-  letter-spacing: 0.05rem;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
   margin-top: 0.5rem;
   padding: 10px 16px;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .submit-button:hover,
@@ -93,6 +94,7 @@ body {
 }
 
 .welcome {
+  letter-spacing: 0.05rem;
   font-size: 45px;
   color: rgb(233, 54, 87);
   margin: 3rem;
@@ -108,7 +110,105 @@ body {
   animation-iteration-count: initial;
 }
 
-.channel-box {
-  background-color: khaki;
+.sidebar-box {
+  font-size: 15px;
+  color: rgb(168, 141, 139);
+  border-radius: 10px;
+  border: 1px solid rgb(233, 54, 87);
+  margin-top: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  opacity: 80%;
+  position: right;
 }
 
+.overflow {
+  overflow-y: scroll;
+  height: 210px;
+  width: 250px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: rgb(233, 54, 87); 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(24, 65, 63); 
+}
+
+.channel {
+  background-color: rgb(24, 65, 63);
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  vertical-align: middle;
+  font-size: 20;
+  border-radius: 5px;
+}
+
+.online-user {
+  font-size: 18px;
+  padding-top: 2px;
+  letter-spacing: 0.05rem;
+  font-family: monospace;
+}
+
+.legend {
+  background-color: rgb(233, 54, 87);
+  color: cornsilk;
+  opacity: 70%;
+  letter-spacing: 0.05rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.create-channel {
+  height: 50px;
+  width: 250px;
+  border-radius: 10px;
+  text-transform: uppercase;
+}
+
+.create-channel:hover,
+.create-channel:focus {
+  filter: brightness(130%);
+}
+
+.chat-box {
+  background-color: rgb(20, 49, 48);
+  font-size: 15px;
+  color: rgb(233, 54, 87);
+  border-radius: 10px;
+  border: 1px solid rgb(168, 141, 139);
+  margin-top: 1rem;
+  opacity: 80%;
+}
+
+.message-box-top {
+  height: 500px;
+  background-color: rgb(168, 141, 139);
+  border-radius: 10px;
+  overflow-y: scroll;
+}
+
+.message-box-bottom {
+  height: 100px;
+  background-color: rgb(168, 141, 139);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+#channelForm {
+  font-size: 16px;
+  color: rgb(161, 44, 79);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.02rem;
+}

@@ -7,6 +7,7 @@ if (username){
   const usernameInput = document.querySelector('#usernameInput');
   const submit = document.querySelector('#usernameSubmitBtn');
 
+  // The "Go!" button
   submit.addEventListener('click', getUsername, false)
 
   function getUsername (event) {
