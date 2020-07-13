@@ -7,5 +7,5 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 
-from project import routes
+from project import chat
 

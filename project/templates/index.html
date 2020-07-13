@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-9 welcome mt-5">Welcome to Hachat!</div>
+    <div class="col-9">
+      <form id="usernameForm" action="" class="p-5 float-right">
+        <div id="txt"></div>
+        Enter a username:<br>
+        <input type="text" id="usernameInput" class="mt-2 input-box"><br><br>
+        <input type="button" id="usernameSubmitBtn" class="submit-button" value="Go!">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<!-- JS file -->
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+{% endblock %}

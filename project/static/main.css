@@ -10,3 +10,105 @@ body {
   background-repeat: no-repeat;
   background-position: left center;
 }
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+}
+
+#usernameForm {
+  font-size: 25px;
+  color: rgb(233, 54, 87);
+  border-radius: 15px;
+  border: 1px solid rgb(233, 54, 87);
+  margin: 3rem;
+  width: 480px;
+  min-height: 250px;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  
+  opacity: 60%;
+  position: right;
+  animation-name: fade-in;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+.input-box {
+  background-color: rgb(168, 141, 139);
+  border-radius: 5px;
+  color: rgb(17, 15, 25);
+  font-family: monospace;
+  box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+}
+
+.input-box:focus {
+  outline: none;
+}
+
+#txt {
+  color: rgb(168, 141, 139);
+  font-family: monospace;
+  font-size: 16px;
+  padding-bottom: 1rem;
+}
+
+.submit-button {
+  border-radius: 5px;
+  background-color: rgb(233, 54, 87);
+  border: none;
+  color: rgb(17, 15, 25);
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0.05rem;
+  margin-top: 0.5rem;
+  padding: 10px 16px;
+  text-transform: uppercase;
+}
+
+.submit-button:hover,
+.submit-button:focus {
+  filter: brightness(130%);
+}
+
+@keyframes move {
+  0% {
+      left: 0%;
+      opacity: 0;
+  }
+  30% {
+      left: 10%;
+      opacity: 0;
+}
+  100% {
+      left: 20%;
+  }
+}
+
+.welcome {
+  font-size: 45px;
+  color: rgb(233, 54, 87);
+  margin: 3rem;
+  max-width: 550px;
+  min-height: 50px;
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  opacity: 60%;
+  position: relative;
+  animation-name: move;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: initial;
+}
+
+.channel-box {
+  background-color: khaki;
+}
+
