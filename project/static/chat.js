@@ -30,6 +30,12 @@ msg.addEventListener("keyup", function(event) {
 
 //------------------SIGN OUT--------------------------------
 
+let loggingOff = document.getElementById("logOffButton");
+loggingOff.onclick = () => {
+  localStorage.removeItem('username');
+  // Go to index
+  window.location = "/chat";
+}
 
 //------------------SOCKETIO - MESSAGE----------------------
 

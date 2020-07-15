@@ -291,6 +291,9 @@ body {
   font-size: 10px;
 }
 
+.modal-content {
+  background-color: rgb(185, 171, 170);
+}
 
 
 
