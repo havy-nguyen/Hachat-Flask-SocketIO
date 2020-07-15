@@ -22,17 +22,14 @@ function createChannel(event) {
 
 let msg = document.getElementById("userMessage");
 msg.addEventListener("keyup", function(event) {
-    event.preventDefault();
-    if (event.keyCode === 13) {
-        document.getElementById("sendMessage").click();
-    }
+  event.preventDefault();
+  if (event.keyCode === 13) {
+    document.getElementById("sendMessage").click();
+  }
 });
 
 //------------------SIGN OUT--------------------------------
 
-// document.querySelector('.fa-sign-out).onclick = () => {
-
-// }
 
 //------------------SOCKETIO - MESSAGE----------------------
 
@@ -44,9 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
   socket.on("connect", () => {
     let button = document.getElementById("sendMessage");
     button.onclick = () => {
-        let message = document.getElementById("userMessage").value;
-        socket.emit("message", {"message": message, "username": username});
-        document.querySelector("#currentChannel").innerHTML = data.channel;
+      let message = document.getElementById("userMessage").value;
+      socket.emit("message", {"message": message, "username": username});
     }
   });
 
