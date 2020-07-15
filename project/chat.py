@@ -12,7 +12,8 @@ def index():
 
 @app.route("/chat")
 def chat():
-    return render_template("chat.html", defaultChannels=defaultChannels)
+    initialChannel = defaultChannels[0]
+    return render_template("chat.html", defaultChannels=defaultChannels, initialChannel=initialChannel)
 
 
 @socketio.on("message")

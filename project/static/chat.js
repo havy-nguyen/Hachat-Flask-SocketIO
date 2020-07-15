@@ -1,4 +1,4 @@
-// Get username. Redirect to index if not found. 
+// Redirect to index if username is not found. 
 const username = localStorage.getItem('username');
 if (username == null){
   window.location = "/";
@@ -18,7 +18,7 @@ function createChannel(event) {
   document.querySelector('#channelForm').removeAttribute("style"); 
 }
 
-//----------------Set "RETURN" key to submit msg-------------
+//------------Set "RETURN" key to send message-------------
 
 let msg = document.getElementById("userMessage");
 msg.addEventListener("keyup", function(event) {
@@ -27,6 +27,12 @@ msg.addEventListener("keyup", function(event) {
         document.getElementById("sendMessage").click();
     }
 });
+
+//------------------SIGN OUT--------------------------------
+
+// document.querySelector('.fa-sign-out).onclick = () => {
+
+// }
 
 //------------------SOCKETIO - MESSAGE----------------------
 
@@ -40,12 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
     button.onclick = () => {
         let message = document.getElementById("userMessage").value;
         socket.emit("message", {"message": message, "username": username});
+        document.querySelector("#currentChannel").innerHTML = data.channel;
     }
   });
 
   // Emit data
   socket.on("show message", data => {
-    
+
     if (data.message.length < 1) { 
       return;
       } else {
@@ -64,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
               document.querySelector(".message-box-top").insertAdjacentHTML("beforeend",
               `<div id="bubble" class="container text-wrap">
                 <div class="row">
-                  <div class="text-wrap message-bubble" style="background-color: #faf0f3; border: 1px solid #018a2a;">
+                  <div class="text-wrap message-bubble" style="background-color: #f5e6e7; border: 1px solid #018a2a;">
                     <h6 class="bubble-author" style="color: #018a2a">${data.username}</h6>
                     <span class="bubble-content">${data.message}</span>
                     &nbsp;<span class="bubble-timestamp float-right navbar-fixed-bottom pt-1">${data.timestamp}</span>

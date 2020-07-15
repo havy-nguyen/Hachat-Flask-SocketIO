@@ -54,12 +54,12 @@
           <div class="col-2"></div>
           <div class="col-10 chat-box">
             <div class="container">
-              <legend id="currentChannel" class="pt-3 pl-2" style="font-family: monospace"><i class="fa fa-lg fa-comments-o" aria-hidden="true"></i>&nbsp;Channel</legend>
+              <legend id="currentChannel" class="pt-3 pl-2" style="font-family: monospace"><i class="fa fa-lg fa-comments-o" aria-hidden="true"></i>&nbsp;{{ initialChannel }}</legend>
               <div class="container message-box-top">
               </div>
               <input type="text" id="userMessage" class="text-wrap message-box-bottom m-3" class="form-control" spellcheck="false" placeholder="Type here..." aria-label="Type a message" aria-describedby="basic-addon2" autocomplete="off">
               <button id="sendMessage" class="submit-button" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-              <i class="fa fa-2x mt-5 float-right fa-sign-out" aria-hidden="true"></i>
+              <i class="fa fa-2x mt-5 float-right fa-sign-out" data-target="#log-off-modal" aria-hidden="true"></i>
               </div>
             </div>
           </div>
