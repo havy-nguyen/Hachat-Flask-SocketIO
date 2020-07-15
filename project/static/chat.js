@@ -18,6 +18,16 @@ function createChannel(event) {
   document.querySelector('#channelForm').removeAttribute("style"); 
 }
 
+//----------------Set "RETURN" key to submit msg-------------
+
+let msg = document.getElementById("userMessage");
+msg.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("sendMessage").click();
+    }
+});
+
 //------------------SOCKETIO - MESSAGE----------------------
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -39,16 +49,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (data.message.length < 1) { 
       return;
       } else {
-          document.querySelector(".message-box-top").insertAdjacentHTML("beforeend",
-            `<div id="bubble" class="container text-wrap">
-              <div class="row ml-1">
-                <div class="text-wrap message-bubble ml-auto">
-                  <h6 class="bubble-author">${data.username}</h6>
-                  <span class="bubble-content">${data.message}</span>
-                  &nbsp;<span class="bubble-timestamp float-right pt-1">${data.timestamp}</span>
+          if (username == data.username) {
+            document.querySelector(".message-box-top").insertAdjacentHTML("beforeend",
+              `<div id="bubble" class="container text-wrap">
+                <div class="row ml-1">
+                  <div class="text-wrap message-bubble ml-auto">
+                    <h6 class="bubble-author">${data.username}</h6>
+                    <span class="bubble-content">${data.message}</span>
+                    &nbsp;<span class="bubble-timestamp float-right navbar-fixed-bottom pt-1">${data.timestamp}</span>
+                  </div>
                 </div>
-              </div>
-            </div>`);
+              </div>`);
+            } else {
+              document.querySelector(".message-box-top").insertAdjacentHTML("beforeend",
+              `<div id="bubble" class="container text-wrap">
+                <div class="row">
+                  <div class="text-wrap message-bubble" style="background-color: #faf0f3; border: 1px solid #018a2a;">
+                    <h6 class="bubble-author" style="color: #018a2a">${data.username}</h6>
+                    <span class="bubble-content">${data.message}</span>
+                    &nbsp;<span class="bubble-timestamp float-right navbar-fixed-bottom pt-1">${data.timestamp}</span>
+                  </div>
+                </div>
+              </div>`);
+            }
 
           // Reset textarea value.
           document.querySelector("#userMessage").value = "";

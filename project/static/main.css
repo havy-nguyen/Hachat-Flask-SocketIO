@@ -207,6 +207,7 @@ body {
   height: 500px;
   background-color: rgb(185, 171, 170);
   border-radius: 10px;
+  padding: 2px;
   overflow-y: scroll;
 }
 
@@ -257,20 +258,20 @@ body {
 }
 
 .message-bubble {
-  min-width: 100px;
+  min-width: 150px;
   max-width: 400px;
-  min-height: 80px;
-  border-radius: 15px;
+  min-height: 60px;
+  border-radius: 20px;
   border: 1px solid rgb(161, 44, 79);
-  background-color: rgb(191, 202, 202);
+  background-color: #dae6e6;
   line-height: 1.4;
   letter-spacing: 0.5;
   display: inline-block;
   flex-direction: column;
   padding: 8px;
-  margin: 8px;
+  margin: 3px;
   animation-name: fade-in;
-  animation-duration: 0.5s;
+  animation-duration: 0.3s;
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
 }
@@ -287,7 +288,7 @@ body {
 .bubble-timestamp {
   color: rgba(0, 0, 0, 0.329);
   font-style: oblique;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 
