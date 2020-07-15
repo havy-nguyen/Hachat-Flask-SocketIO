@@ -155,11 +155,22 @@ body {
   border-radius: 5px;
 }
 
+.channel:hover,
+.channel:focus {
+  filter: brightness(130%);
+}
+
 .online-user {
   font-size: 18px;
   padding-top: 2px;
   letter-spacing: 0.05rem;
   font-family: monospace;
+}
+
+.online-user:hover,
+.online-user:focus {
+  font-size: 19px;
+  filter: brightness(130%);
 }
 
 .legend {
@@ -194,16 +205,28 @@ body {
 
 .message-box-top {
   height: 500px;
-  background-color: rgb(168, 141, 139);
+  background-color: rgb(185, 171, 170);
   border-radius: 10px;
   overflow-y: scroll;
 }
 
 .message-box-bottom {
-  height: 100px;
-  background-color: rgb(168, 141, 139);
+  height: 80px;
+  width: 480px;
+  background-color: rgb(185, 171, 170);
   border-radius: 10px;
   margin-top: 20px;
+  font-family: monospace;
+  color: rgba(0, 0, 0, 0.787);
+}
+
+.message-box-bottom::-webkit-input-placeholder {
+  color: rgb(161, 44, 79);
+  font-style: italic;
+}
+
+.message-box-bottom:focus {
+  outline:none;
 }
 
 #channelForm {
@@ -211,4 +234,62 @@ body {
   color: rgb(161, 44, 79);
   font-family: 'Courier New', Courier, monospace;
   letter-spacing: 0.02rem;
+  animation-name: fade-in;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
 }
+
+.fa-sign-out:hover,
+.fa-sign-out:focus {
+  font-size: 35px;
+  filter: brightness(130%);
+}
+
+#sendMessage {
+  height: 70px;
+  width: 60px;
+  color: rgba(0, 0, 0, 0.787);
+}
+
+#bubble {
+  min-height:0px !important;
+}
+
+.message-bubble {
+  min-width: 100px;
+  max-width: 400px;
+  min-height: 80px;
+  border-radius: 15px;
+  border: 1px solid rgb(161, 44, 79);
+  background-color: rgb(191, 202, 202);
+  line-height: 1.4;
+  letter-spacing: 0.5;
+  display: inline-block;
+  flex-direction: column;
+  padding: 8px;
+  margin: 8px;
+  animation-name: fade-in;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
+.bubble-author {
+  color: rgb(182, 53, 92);
+}
+
+.bubble-content {
+  color: rgba(0, 0, 0, 0.787);
+  font-size: 17px;
+}
+
+.bubble-timestamp {
+  color: rgba(0, 0, 0, 0.329);
+  font-style: oblique;
+  font-size: 12px;
+}
+
+
+
+

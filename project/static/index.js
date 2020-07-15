@@ -1,3 +1,4 @@
+// Prevent prompt input if already had a username.
 const username = localStorage.getItem('username');
 if (username){
   window.location = "/chat";
@@ -7,7 +8,7 @@ if (username){
   const usernameInput = document.querySelector('#usernameInput');
   const submit = document.querySelector('#usernameSubmitBtn');
 
-  // The "Go!" button
+  // Listen to username submission.
   submit.addEventListener('click', getUsername, false)
 
   function getUsername (event) {

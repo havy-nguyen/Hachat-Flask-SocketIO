@@ -38,7 +38,7 @@
       <div id="channelDiv">
         <button type="button" id="newChannel" class="legend create-channel mt-2">Create Channel <i class="fa fa-plus" aria-hidden="true"></i></button>
         <form id="channelForm" style="display:none">
-          Enter a username:<br>
+          Enter channel name:<br>
           <input type="text" class="mt-2 input-box"><br><br>
           <button type="button" id="newChannel" class="legend create-channel mt-2">Go to channel <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
         </form>
@@ -54,10 +54,12 @@
           <div class="col-2"></div>
           <div class="col-10 chat-box">
             <div class="container">
-              <legend class="pt-3 pl-2" style="font-family: monospace"><i class="fa fa-lg fa-comments-o" aria-hidden="true"></i>&nbspCHANNEL NAME</legend>
-              <div class="row message-box-top m-2">
+              <legend id="currentChannel" class="pt-3 pl-2" style="font-family: monospace"><i class="fa fa-lg fa-comments-o" aria-hidden="true"></i>&nbsp;Channel</legend>
+              <div class="container message-box-top">
               </div>
-              <div class="row message-box-bottom m-3">
+              <input type="text" id="userMessage" class="text-wrap message-box-bottom m-3" class="form-control" spellcheck="false" placeholder="Type here..." aria-label="Type a message" aria-describedby="basic-addon2" autocomplete="off">
+              <button id="sendMessage" class="submit-button" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <i class="fa fa-2x mt-5 float-right fa-sign-out" aria-hidden="true"></i>
               </div>
             </div>
           </div>
@@ -73,6 +75,4 @@
 {% block js %}
 <!-- JS file -->
 <script src="{{ url_for('static', filename='chat.js') }}"></script>
-<!-- Socketio -->
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script> -->
 {% endblock %}
