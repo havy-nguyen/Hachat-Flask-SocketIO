@@ -5,13 +5,13 @@
   <div class="row">
 
     <!-- --- Side bar --- -->
-    <div class="col-3 mt-5">
+    <div class="col-lg-4 col-md-12 col-sm-12 mt-5">
 
       <div class="sidebar-box mb-3">
         <legend class="border-bottom pl-2 legend">Channels</legend>
-        <div class="overflow">
+        <div class="col overflow">
           {% for channel in defaultChannels %}
-          <ul class="list-group p-2">
+          <ul style="list-style-type:none;" class="list-group p-2">
             <li class="channel">
               <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
               {{ channel }}
@@ -23,9 +23,9 @@
 
       <div class="sidebar-box mb-3">
         <legend class="border-bottom pl-2 legend">Online</legend>
-        <div class="overflow">
+        <div class="col overflow">
           {% for channel in defaultChannels %}
-          <ul class="list-group p-2">
+          <ul style="list-style-type:none;" class="list-group p-2">
             <li class="online-user">
               <i class="fa fa-lg fa-user-o" aria-hidden="true"><i class="fa fa-circle"
                   style="font-size: 10px; color: green" aria-hidden="true"></i></i>
@@ -37,37 +37,45 @@
       </div>
 
       <div id="channelDiv">
-        <button type="button" id="newChannel" class="legend create-channel mt-2">Create Channel <i class="fa fa-plus"
-            aria-hidden="true"></i></button>
-        <form id="channelForm" style="display:none">
-          Enter channel name:<br>
-          <input id="newChannelName" type="text" class="mt-2 input-box"><br><br>
-          <button type="button" id="newChannel" class="legend create-channel mt-2">Go to channel <i
-              class="fa fa-arrow-right" aria-hidden="true"></i></button>
-        </form>
+        <div class="container">
+          <div class="row">
+            <button type="button" id="newChannel" class="legend create-channel mt-2">Create Channel <i
+                class="fa fa-plus" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <div class="container">
+          <form class="row" id="channelForm" style="display:none">
+            Enter channel name:<br>
+            <input type="text" class="mt-2 input-box"><br><br>
+            <button type="button" id="newChannel" class="legend create-channel mt-2">Go to channel <i
+                class="fa fa-arrow-right" aria-hidden="true"></i></button>
+          </form>
+        </div>
       </div>
 
     </div>
     <!-- --- End side bar --- -->
 
     <!-- --- Chat area --- -->
-    <div class="col-9">
+    <div class="col-lg-8 col-md-12 col-sm-12">
       <div class="container">
         <div class="row mt-4">
-          <div class="col-2"></div>
-          <div class="col-10 chat-box">
+          <div class="col-sm-12 col-md-12 col-lg-9 chat-box">
             <div class="container">
               <legend id="currentChannel" class="pt-3 pl-2" style="font-family: monospace"><i
                   class="fa fa-lg fa-comments-o" aria-hidden="true"></i>&nbsp;{{ initialChannel }}</legend>
               <div class="container message-box-top">
+                <p class="isTying ml-2"></p>
               </div>
-              <input type="text" id="userMessage" class="text-wrap message-box-bottom m-3" class="form-control"
-                spellcheck="false" placeholder="Type here..." aria-label="Type a message"
-                aria-describedby="basic-addon2" autocomplete="off">
-              <button id="sendMessage" class="submit-button" type="button"><i style="color:#f5e6e7;"
-                  class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
-              <i class="fa fa-2x mt-5 float-right fa-sign-out" data-toggle="modal" data-target="#logoffModal"
-                aria-hidden="true"></i>
+              <div class="row">
+                <input type="text" id="userMessage" class="col-8 text-wrap message-box-bottom m-3" class="form-control"
+                  spellcheck="false" placeholder="Type here..." aria-label="Type a message"
+                  aria-describedby="basic-addon2" autocomplete="off">
+                <button id="sendMessage" class="col-2 submit-button mt-4" type="button"><i style="color:#f5e6e7;"
+                    class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                <i class="fa col fa-2x float-right mt-5 fa-sign-out" data-toggle="modal" data-target="#logoffModal"
+                  aria-hidden="true"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -93,7 +101,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="logOffButton" style="background-color: rgb(182, 53, 92);" class="btn btn-secondary">OK</button>
+        <button type="button" id="logOffButton" style="background-color: rgb(182, 53, 92);"
+          class="btn btn-secondary">OK</button>
       </div>
     </div>
   </div>
