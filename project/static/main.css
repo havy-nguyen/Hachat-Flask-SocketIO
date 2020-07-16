@@ -209,6 +209,7 @@ body {
   border-radius: 10px;
   padding: 2px;
   overflow-y: scroll;
+  position: relative;
 }
 
 .message-box-bottom {
@@ -295,5 +296,10 @@ body {
   background-color: rgb(185, 171, 170);
 }
 
-
+.isTying {
+  position: absolute;
+  bottom: 0px;
+  color: rgba(32, 32, 32, 0.507);
+  font-style: oblique;
+}
 
