@@ -1,3 +1,33 @@
+@media(min-width:276px){
+  #newChannel, #channelForm, .sidebar-box, .overflow {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    }
+  .chat-box {
+    margin: 60px auto;
+  }
+  }
+
+@media(min-width:768px) {
+  .sidebar-box, #newChannel {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .chat-box {
+    width: 100%;
+  }
+}
+
+@media(min-width:992px){
+  .sidebar-box, #newChannel {
+    width: 100%;
+  }
+  .chat-box {
+    margin-left: 150px;
+  }
+}
+
 html, body {
   height:100%;
 } 
@@ -124,8 +154,7 @@ body {
 
 .overflow {
   overflow-y: scroll;
-  height: 210px;
-  width: 250px;
+  height: 190px;
 }
 
 ::-webkit-scrollbar {
@@ -183,7 +212,7 @@ body {
 
 .create-channel {
   height: 50px;
-  width: 250px;
+  width: 260px;
   border-radius: 10px;
   text-transform: uppercase;
 }
@@ -250,7 +279,7 @@ body {
 
 #sendMessage {
   height: 70px;
-  width: 60px;
+  width: 5px;
   color: rgba(0, 0, 0, 0.787);
 }
 
