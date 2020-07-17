@@ -26,19 +26,21 @@ function createChannel() {
 }
 
 // Store new channels
-const userChannel = [];
+const channelStorage = localStorage.getItem('userChannel');
+const userChannel = channelStorage != null ? JSON.parse(channelStorage) : [];
 
-// Add newly created channel to Channels
-JSON.parse(localStorage.getItem("userChannel")).forEach(addItem);
+// Add newly created channels to Channels
+userChannel.forEach(addItem);
 
 function addItem (item) {
-document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
-        `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
-          <li class="channel">
-            <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
-            ${item}
-          </li>
-        </ul>`); }
+  document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
+          `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
+            <li class="channel">
+              <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
+              ${item}
+            </li>
+          </ul>`); 
+}
 
 //------------Set "RETURN" key to send message-------------
 
@@ -74,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // CHANNEL
   goToChannelButton.onclick = () => {
     let newChannelName = newChannelValue.value;
-    userChannel.unshift(newChannelName)
+    userChannel.push(newChannelName);
     localStorage.setItem('userChannel', JSON.stringify(userChannel));
     socket.emit("channel", {"newChannelName": newChannelName});
   }
