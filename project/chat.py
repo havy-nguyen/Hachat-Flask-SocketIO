@@ -20,8 +20,13 @@ def chat():
 def message(data):
     message = data["message"]
     username = data["username"]
-    channel = defaultChannels[0]
     timestamp = time.strftime('%b-%d %I:%M%p', time.localtime())
     emit("show message", {"message": message, "username": username, 
-                        "timestamp": timestamp, "channel": channel}, broadcast=True)
+                        "timestamp": timestamp}, broadcast=True)
+
+
+@socketio.on("channel")
+def channel(data):
+    newChannelName = data["newChannelName"]
+    emit("create channel", {"newChannelName": newChannelName}, broadcast=True) 
 

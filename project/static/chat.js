@@ -1,5 +1,13 @@
-// Redirect to index if username is not found. 
 const username = localStorage.getItem('username');
+const channelNameInput = document.querySelector('#channelForm');
+const newChannelValue = document.querySelector('#newChannelName');
+const typedInMsg = document.getElementById("userMessage");
+const paperPlaneButton = document.getElementById("sendMessage");
+const createChannelButton = document.querySelector('#newChannel');
+const logOffButton = document.getElementById("logOffButton");
+const goToChannelButton = document.querySelector('.newChannelButton');
+
+// Redirect to index if username is not found. 
 if (username == null){
   window.location = "/";
 }
@@ -7,52 +15,72 @@ if (username == null){
 //------------------CREATE CHANNEL-------------------------
 
 // When user clicks Create Channel button, ask for channel name.
-let newChannel = document.querySelector('#newChannel');
-newChannel.addEventListener('click', createChannel, false)
+createChannelButton.addEventListener('click', createChannel, false)
 
-function createChannel(event) {
+function createChannel() {
   // Remove button.
   let list = document.querySelector('#channelDiv');
   list.removeChild(list.childNodes[1]);
   // Show form.
-  document.querySelector('#channelForm').removeAttribute("style"); 
+  channelNameInput.removeAttribute("style"); 
 }
+
+// Store new channels
+const userChannel = [];
+
+// Add newly created channel to Channels
+JSON.parse(localStorage.getItem("userChannel")).forEach(addItem);
+
+function addItem (item) {
+document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
+        `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
+          <li class="channel">
+            <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
+            ${item}
+          </li>
+        </ul>`); }
 
 //------------Set "RETURN" key to send message-------------
 
-let msg = document.getElementById("userMessage");
-msg.addEventListener("keyup", function(event) {
+typedInMsg.addEventListener("keyup", function(event) {
   event.preventDefault();
   if (event.keyCode === 13) {
-    document.getElementById("sendMessage").click();
+    paperPlaneButton.click();
   }
 });
 
 //------------------SIGN OUT--------------------------------
 
-let loggingOff = document.getElementById("logOffButton");
-loggingOff.onclick = () => {
+logOffButton.onclick = () => {
   localStorage.removeItem('username');
   // Go to index
   window.location = "/chat";
 }
 
-//------------------SOCKETIO - MESSAGE----------------------
+//---------------------------SOCKETIO----------------------
 
 document.addEventListener('DOMContentLoaded', () => {
   // Connect to websocket
   var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
-  // Get data
+  // On CONNECT
   socket.on("connect", () => {
-    let button = document.getElementById("sendMessage");
-    button.onclick = () => {
-      let message = document.getElementById("userMessage").value;
+    paperPlaneButton.onclick = () => {
+      let message = typedInMsg.value;
       socket.emit("message", {"message": message, "username": username});
     }
   });
 
-  // Emit data
+  // CHANNEL
+  goToChannelButton.onclick = () => {
+    let newChannelName = newChannelValue.value;
+    userChannel.unshift(newChannelName)
+    localStorage.setItem('userChannel', JSON.stringify(userChannel));
+    socket.emit("channel", {"newChannelName": newChannelName});
+  }
+
+  //---------------------------EMIT DATA----------------------
+  
   socket.on("show message", data => {
 
     if (data.message.length < 1) { 
@@ -83,14 +111,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
           // Reset textarea value.
-          document.querySelector("#userMessage").value = "";
+          typedInMsg.value = "";
 
           // Scroll to newest.
-          let container = document.querySelector(".message-box-top");
-          container.scrollTop = container.scrollHeight;
-        }
+          scrollDownChatWindow();
+      }
     });
-  });
 
+  socket.on("create channel", data => {
+   
+    if (data.newChannelName.length < 1) { 
+      channelNameInput.removeAttribute("style");
+      } else {
+        document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
+        `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
+        <li class="channel">
+          <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
+            ${data.newChannelName}
+        </li>
+        </ul>`
+        );
 
-
+        // Reset textarea value.
+        newChannelValue.value = "";
+        }
+      });
+    });
