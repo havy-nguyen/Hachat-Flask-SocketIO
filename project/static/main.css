@@ -7,6 +7,9 @@
   .chat-box {
     margin: 60px auto;
   }
+  .welcome {
+    font-size: 5px;
+  }
   }
 
 @media(min-width:768px) {
@@ -55,7 +58,7 @@ body {
   color: rgb(233, 54, 87);
   border-radius: 15px;
   border: 1px solid rgb(233, 54, 87);
-  margin: 3rem;
+  margin: 2rem auto;
   width: 480px;
   min-height: 250px;
   text-align: center;
@@ -111,29 +114,26 @@ body {
 
 @keyframes move {
   0% {
-      left: 0%;
+      left: 40%;
       opacity: 0;
   }
   30% {
-      left: 10%;
+      left: 30%;
       opacity: 0;
 }
   100% {
-      left: 20%;
+      left: 0%;
   }
 }
 
 .welcome {
   letter-spacing: 0.05rem;
-  font-size: 45px;
+  font-size: 35px;
   color: rgb(233, 54, 87);
-  margin: 3rem;
-  max-width: 550px;
-  min-height: 50px;
-  text-align: center;
+  margin: 3rem auto;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   opacity: 60%;
-  position: relative;
+  text-align: center;
   animation-name: move;
   animation-duration: 2s;
   animation-fill-mode: forwards;
