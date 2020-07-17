@@ -12,7 +12,6 @@ if (username){
   usernameInput.addEventListener("keydown", function(enter) {
     if (enter.keyCode === 13) {
       enter.preventDefault();
-      console.log("ooo")
       document.querySelector('#usernameSubmitBtn').click();
     }
   });

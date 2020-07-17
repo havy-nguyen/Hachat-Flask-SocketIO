@@ -23,6 +23,7 @@ function createChannel() {
   list.removeChild(list.childNodes[1]);
   // Show form.
   channelNameInput.removeAttribute("style"); 
+  newChannelValue.focus();
 }
 
 // Store new channels
@@ -42,14 +43,19 @@ function addItem (item) {
           </ul>`); 
 }
 
-//------------Set "RETURN" key to send message-------------
+//------------Set "RETURN" key to submit-------------
 
-typedInMsg.addEventListener("keyup", function(event) {
-  event.preventDefault();
-  if (event.keyCode === 13) {
-    paperPlaneButton.click();
+typedInMsg.addEventListener("keyup", makeListener(paperPlaneButton));
+newChannelValue.addEventListener("keyup", makeListener(goToChannelButton));
+
+function makeListener(button) {
+  return (event) => {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      button.click();
+    }
   }
-});
+}
 
 //------------------SIGN OUT--------------------------------
 
@@ -75,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // CHANNEL
   goToChannelButton.onclick = () => {
+    newChannelValue.focus();
     let newChannelName = newChannelValue.value;
     userChannel.push(newChannelName);
     localStorage.setItem('userChannel', JSON.stringify(userChannel));
@@ -116,7 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
           typedInMsg.value = "";
 
           // Scroll to newest.
-          scrollDownChatWindow();
+          let container = document.querySelector(".message-box-top");
+          container.scrollTop = container.scrollHeight;
       }
     });
 
