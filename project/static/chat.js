@@ -6,6 +6,8 @@ const paperPlaneButton = document.getElementById("sendMessage");
 const createChannelButton = document.querySelector('#newChannel');
 const logOffButton = document.getElementById("logOffButton");
 const goToChannelButton = document.querySelector('.newChannelButton');
+const defaultChannels = ["Hobbies", "Travel", "Cooking", "Sports", "News", "Education"];
+
 
 // Redirect to index if username is not found. 
 if (username == null){
@@ -61,6 +63,7 @@ function makeListener(button) {
 
 logOffButton.onclick = () => {
   localStorage.removeItem('username');
+  localStorage.removeItem('userChannel');
   // Go to index
   window.location = "/chat";
 }
@@ -82,10 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // CHANNEL
   goToChannelButton.onclick = () => {
     newChannelValue.focus();
-    let newChannelName = newChannelValue.value;
-    userChannel.push(newChannelName);
-    localStorage.setItem('userChannel', JSON.stringify(userChannel));
-    socket.emit("channel", {"newChannelName": newChannelName});
+    let newChannelName = newChannelValue.value.charAt(0).toUpperCase() + newChannelValue.value.slice(1);
+    if (defaultChannels.includes(newChannelName)) {
+      document.querySelector(".channelNamePrompt").innerText = "Channel already exists!"
+    } else {
+      userChannel.push(newChannelName);
+      localStorage.setItem('userChannel', JSON.stringify(userChannel));
+      socket.emit("channel", {"newChannelName": newChannelName});
+    }
   }
 
   //---------------------------EMIT DATA----------------------
@@ -141,6 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
         </li>
         </ul>`
         );
+
+        // Redirect user to the new channel
+        let chatHeader = document.querySelector("#currentChannel");
+        chatHeader.removeChild(chatHeader.lastChild);
+        document.querySelector("#currentChannel").insertAdjacentHTML("beforeend", `&nbsp;${data.newChannelName}`);
 
         // Reset textarea value.
         newChannelValue.value = "";
