@@ -1,14 +1,13 @@
 // Prevent prompt input if already had a username.
 const username = localStorage.getItem('username');
+const usernameInput = document.querySelector('#usernameInput');
+const submit = document.querySelector('#usernameSubmitBtn');
 
 if (username){
   window.location = "/chat";
 
 } else {
   
-  const usernameInput = document.querySelector('#usernameInput');
-  const submit = document.querySelector('#usernameSubmitBtn');
-
   // Make "Return" key submit.
   usernameInput.addEventListener("keydown", function(enter) {
     if (enter.keyCode === 13) {

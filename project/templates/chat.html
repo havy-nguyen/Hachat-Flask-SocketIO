@@ -9,9 +9,9 @@
 
       <div class="sidebar-box mb-3">
         <legend class="border-bottom pl-2 legend">Channels</legend>
-        <div class="col overflow">
+        <div id="channelList" class="col overflow">
           {% for channel in defaultChannels %}
-          <ul style="list-style-type:none;" class="list-group p-2">
+          <ul  style="list-style-type:none;" class="list-group p-2">
             <li class="channel">
               <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
               {{ channel }}
@@ -44,12 +44,12 @@
           </div>
         </div>
         <div class="container">
-          <form class="row" id="channelForm" style="display:none">
+          <div class="row" id="channelForm" style="display:none">
             Enter channel name:<br>
-            <input type="text" class="mt-2 input-box"><br><br>
-            <button type="button" id="newChannel" class="legend create-channel mt-2">Go to channel <i
+            <input id="newChannelName" type="text" class="mt-2 input-box"><br><br>
+            <button type="button" id="newChannel" class="newChannelButton legend create-channel mt-2">Go to channel <i
                 class="fa fa-arrow-right" aria-hidden="true"></i></button>
-          </form>
+            </div>
         </div>
       </div>
 
