@@ -6,6 +6,7 @@ const paperPlaneButton = document.getElementById("sendMessage");
 const createChannelButton = document.querySelector('#newChannel');
 const logOffButton = document.getElementById("logOffButton");
 const goToChannelButton = document.querySelector('.newChannelButton');
+const channelNameAlert = document.querySelector(".channelNamePrompt");
 const defaultChannels = ["Hobbies", "Travel", "Cooking", "Sports", "News", "Education"];
 
 
@@ -86,11 +87,16 @@ document.addEventListener('DOMContentLoaded', () => {
   goToChannelButton.onclick = () => {
     newChannelValue.focus();
     let newChannelName = newChannelValue.value.charAt(0).toUpperCase() + newChannelValue.value.slice(1);
-    if (defaultChannels.includes(newChannelName)) {
-      document.querySelector(".channelNamePrompt").innerText = "Channel already exists!"
+
+    // To make sure new name doesnt conflict with existing channels
+    if (newChannelName == "") {
+      return;
+    } else if (defaultChannels.concat(userChannel).includes(newChannelName)) {
+      channelNameAlert.innerText = "Channel already exists!"; 
     } else {
       userChannel.push(newChannelName);
       localStorage.setItem('userChannel', JSON.stringify(userChannel));
+      channelNameAlert.innerText = "Channel has been created!"
       socket.emit("channel", {"newChannelName": newChannelName});
     }
   }
@@ -137,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   socket.on("create channel", data => {
    
-    if (data.newChannelName.length < 1) { 
+    if (data.newChannelName.length > 1) { 
       channelNameInput.removeAttribute("style");
       } else {
         document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
