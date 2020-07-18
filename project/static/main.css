@@ -222,6 +222,13 @@ body {
   filter: brightness(130%);
 }
 
+.channelNamePrompt {
+  animation-name: fade-in;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
+
 .chat-box {
   background-color: rgb(20, 49, 48);
   font-size: 15px;
