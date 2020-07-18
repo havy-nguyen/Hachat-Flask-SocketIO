@@ -267,7 +267,7 @@ body {
   outline:none;
 }
 
-#channelForm {
+#channelForm, .textNotif {
   font-size: 16px;
   color: rgb(161, 44, 79);
   font-family: 'Courier New', Courier, monospace;

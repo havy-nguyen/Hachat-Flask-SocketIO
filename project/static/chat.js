@@ -7,7 +7,8 @@ const createChannelButton = document.querySelector('#newChannel');
 const logOffButton = document.getElementById("logOffButton");
 const goToChannelButton = document.querySelector('.newChannelButton');
 const channelNameAlert = document.querySelector(".channelNamePrompt");
-const defaultChannels = ["Hobbies", "Travel", "Cooking", "Sports", "News", "Education"];
+const channelCreatedNotif = document.querySelector(".textNotif");
+const defaultChannels = ["hobbies", "travel", "cooking", "sports", "news", "education"];
 
 
 // Redirect to index if username is not found. 
@@ -21,9 +22,10 @@ if (username == null){
 createChannelButton.addEventListener('click', createChannel, false)
 
 function createChannel() {
-  // Remove button.
-  let list = document.querySelector('#channelDiv');
-  list.removeChild(list.childNodes[1]);
+  // Remove button && hide text notif
+  createChannelButton.setAttribute("style", "display: none;");
+  channelCreatedNotif.setAttribute("style", "display: none;");
+  channelCreatedNotif.innerHTML = "";
   // Show form.
   channelNameInput.removeAttribute("style"); 
   newChannelValue.focus();
@@ -93,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     } else if (defaultChannels.concat(userChannel).includes(newChannelName)) {
       channelNameAlert.innerText = "Channel already exists!"; 
+      newChannelValue.value = ""
     } else {
       userChannel.push(newChannelName);
       localStorage.setItem('userChannel', JSON.stringify(userChannel));
-      channelNameAlert.innerText = "Channel has been created!"
       socket.emit("channel", {"newChannelName": newChannelName});
     }
   }
@@ -142,26 +144,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   socket.on("create channel", data => {
-   
-    if (data.newChannelName.length > 1) { 
-      channelNameInput.removeAttribute("style");
-      } else {
-        document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
-        `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
-        <li class="channel">
-          <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
-            ${data.newChannelName}
-        </li>
-        </ul>`
-        );
 
-        // Redirect user to the new channel
-        let chatHeader = document.querySelector("#currentChannel");
-        chatHeader.removeChild(chatHeader.lastChild);
-        document.querySelector("#currentChannel").insertAdjacentHTML("beforeend", `&nbsp;${data.newChannelName}`);
+    // Channel created notification
+    channelNameInput.setAttribute("style", "display: none");
+    createChannelButton.removeAttribute("style");
+    channelCreatedNotif.removeAttribute("style");
+    channelCreatedNotif.insertAdjacentHTML("beforeend", `Channel has been created.<br>You are now in channel ${data.newChannelName}!`);
 
-        // Reset textarea value.
-        newChannelValue.value = "";
-        }
-      });
-    });
+    // Add new channel to side-bar
+    document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
+    `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
+    <li class="channel">
+      <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
+        ${data.newChannelName}
+    </li>
+    </ul>`
+    );
+
+    // Redirect user to the new channel
+    let chatHeader = document.querySelector("#currentChannel");
+    chatHeader.removeChild(chatHeader.lastChild);
+    document.querySelector("#currentChannel").insertAdjacentHTML("beforeend", `&nbsp;${data.newChannelName}`);
+
+    // Reset textarea value.
+    newChannelValue.value = "";
+  });
+});
