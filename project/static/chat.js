@@ -19,7 +19,7 @@ if (username == null){
 //------------------CREATE CHANNEL-------------------------
 
 // When user clicks Create Channel button, ask for channel name.
-createChannelButton.addEventListener('click', createChannel, false)
+createChannelButton.addEventListener('click', createChannel, false);
 
 function createChannel() {
   // Remove button && hide text notif
@@ -88,9 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // CHANNEL
   goToChannelButton.onclick = () => {
     newChannelValue.focus();
-    let newChannelName = newChannelValue.value.charAt(0).toUpperCase() + newChannelValue.value.slice(1);
+    let newChannelName = newChannelValue.value.toLowerCase();
 
-    // To make sure new name doesnt conflict with existing channels
+    // To make sure the new name doesnt conflict with existing channels
     if (newChannelName == "") {
       return;
     } else if (defaultChannels.concat(userChannel).includes(newChannelName)) {
