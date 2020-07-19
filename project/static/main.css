@@ -53,7 +53,7 @@ body {
   }
 }
 
-#usernameForm {
+#usernameForm, #errorForm {
   font-size: 25px;
   color: rgb(233, 54, 87);
   border-radius: 15px;
@@ -338,4 +338,3 @@ body {
   color: rgba(32, 32, 32, 0.507);
   font-style: oblique;
 }
-

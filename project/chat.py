@@ -3,12 +3,18 @@ from project import app, socketio
 from flask import render_template, url_for
 from flask_socketio import SocketIO, join_room, leave_room, emit
 
-defaultChannels = ["Hobbies", "Travel", "Cooking", "Sports", "News", "Education"]
+defaultChannels = ["hobbies", "travel", "cooking", "sports", "news", "education"]
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+    
 
 @app.route("/chat")
 def chat():
