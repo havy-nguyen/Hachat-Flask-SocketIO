@@ -33,6 +33,14 @@ def message(data):
 
 @socketio.on("channel")
 def channel(data):
-    newChannelName = data["newChannelName"]
-    emit("create channel", {"newChannelName": newChannelName}, broadcast=True) 
+    newChannelName = data["newChannelName"].title()
+    defaultChannels.insert(0, newChannelName)
+    emit("create channel", {"newChannelName": newChannelName, "defaultChannels": defaultChannels}, newChannelName=newChannelName, broadcast=True) 
 
+
+# @socketio.on("join")
+# def join(data):
+#     username = data["username"]
+#     channel = data["channel"]
+#     join_room(channel)
+#     emit({"join notification": username + " has joined " + channel + " room."}, channel=channel)
