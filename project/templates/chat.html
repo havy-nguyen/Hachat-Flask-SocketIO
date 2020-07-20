@@ -11,7 +11,7 @@
         <legend class="border-bottom pl-2 legend">Channels</legend>
         <div id="channelList" class="col overflow">
           {% for channel in defaultChannels %}
-          <ul  style="list-style-type:none;" class="list-group p-2">
+          <ul style="list-style-type:none;" class="list-group p-2">
             <li class="channel">
               <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
               {{ channel }}
@@ -41,7 +41,7 @@
           <div class="row">
             <p class="textNotif"></p>
             <button type="button" id="newChannel" class="legend create-channel mt-2">Create Channel <i
-                class="fa fa-plus" aria-hidden="true"></i></button>
+                class="fa fa-plus" aria-hidden="true"></i> </button>
           </div>
         </div>
         <div class="container">
@@ -50,11 +50,16 @@
             <input id="newChannelName" type="text" class=" input-box"><br><br>
             <button type="button" id="newChannel" class="newChannelButton legend create-channel mt-2">Go to channel <i
                 class="fa fa-arrow-right" aria-hidden="true"></i></button>
-            </div>
+          </div>
         </div>
       </div>
 
+      <div>
+        <p class="textNotifBottom mt-2" style="color: rgb(161, 44, 79); font-family: 'Courier New', Courier, monospace; font-size: 16px;"></p>
+      </div>
+
     </div>
+
     <!-- --- End side bar --- -->
 
     <!-- --- Chat area --- -->

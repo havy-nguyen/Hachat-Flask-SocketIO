@@ -35,19 +35,6 @@ function createChannel() {
 const channelStorage = localStorage.getItem('userChannel');
 const userChannel = channelStorage != null ? JSON.parse(channelStorage) : [];
 
-// Add newly created channels to Channels
-userChannel.forEach(addItem);
-
-function addItem (item) {
-  document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
-          `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
-            <li class="channel">
-              <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
-              ${item}
-            </li>
-          </ul>`); 
-}
-
 //------------Set "RETURN" key to submit-------------
 
 typedInMsg.addEventListener("keyup", makeListener(paperPlaneButton));
@@ -71,7 +58,7 @@ logOffButton.onclick = () => {
   window.location = "/chat";
 }
 
-//---------------------------SOCKETIO----------------------
+//---------------SOCKETIO - GET DATA----------------------
 
 document.addEventListener('DOMContentLoaded', () => {
   // Connect to websocket
@@ -99,12 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       userChannel.push(newChannelName);
       localStorage.setItem('userChannel', JSON.stringify(userChannel));
+      document.querySelector(".textNotifBottom").innerHTML = `Channel has been created!<br> Redirecting to channel...`;
       socket.emit("channel", {"newChannelName": newChannelName});
     }
   }
 
   //---------------------------EMIT DATA----------------------
   
+  // <<<<<<<< Messages >>>>>>>>
   socket.on("show message", data => {
 
     if (data.message.length < 1) { 
@@ -143,29 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+  // <<<<<<<< Channels >>>>>>>>
   socket.on("create channel", data => {
 
     // Channel created notification
     channelNameInput.setAttribute("style", "display: none");
     createChannelButton.removeAttribute("style");
     channelCreatedNotif.removeAttribute("style");
-    channelCreatedNotif.insertAdjacentHTML("beforeend", `Channel has been created.<br>You are now in channel ${data.newChannelName}!`);
-
-    // Add new channel to side-bar
-    document.querySelector("#channelList").insertAdjacentHTML("afterbegin",
-    `<ul id="channelList" style="list-style-type:none;" class="list-group p-2">
-    <li class="channel">
-      <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
-        ${data.newChannelName}
-    </li>
-    </ul>`
-    );
 
     // Redirect user to the new channel
-    let chatHeader = document.querySelector("#currentChannel");
-    chatHeader.removeChild(chatHeader.lastChild);
-    document.querySelector("#currentChannel").insertAdjacentHTML("beforeend", `&nbsp;${data.newChannelName}`);
-
+    setTimeout(function(){ 
+      let chatHeader = document.querySelector("#currentChannel");
+      chatHeader.removeChild(chatHeader.lastChild);
+      document.querySelector("#currentChannel").insertAdjacentHTML("beforeend", `&nbsp;${data.newChannelName}`);
+      window.location = "/chat"; 
+    }, 3000);
+    
     // Reset textarea value.
     newChannelValue.value = "";
   });
