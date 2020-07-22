@@ -8,6 +8,8 @@ const logOffButton = document.getElementById("logOffButton");
 const goToChannelButton = document.querySelector('.newChannelButton');
 const channelNameAlert = document.querySelector(".channelNamePrompt");
 const channelCreatedNotif = document.querySelector(".textNotif");
+const initialChannel = document.querySelector("#initialChannel");
+const currentChannelList = document.querySelectorAll(".channel");
 const defaultChannels = ["hobbies", "travel", "cooking", "sports", "news", "education"];
 
 
@@ -35,7 +37,7 @@ function createChannel() {
 const channelStorage = localStorage.getItem('userChannel');
 const userChannel = channelStorage != null ? JSON.parse(channelStorage) : [];
 
-//------------Set "RETURN" key to submit-------------
+//------------Set "RETURN" key to submit------------------
 
 typedInMsg.addEventListener("keyup", makeListener(paperPlaneButton));
 newChannelValue.addEventListener("keyup", makeListener(goToChannelButton));
@@ -141,14 +143,53 @@ document.addEventListener('DOMContentLoaded', () => {
     channelCreatedNotif.removeAttribute("style");
 
     // Redirect user to the new channel
-    setTimeout(function(){ 
-      let chatHeader = document.querySelector("#currentChannel");
-      chatHeader.removeChild(chatHeader.lastChild);
-      document.querySelector("#currentChannel").insertAdjacentHTML("beforeend", `&nbsp;${data.newChannelName}`);
-      window.location = "/chat"; 
-    }, 3000);
+    setTimeout(function(){
+      window.location = "/chat";
+      redirectUser(`${data.newChannelName}`);
+    }, 2000);
     
     // Reset textarea value.
     newChannelValue.value = "";
   });
+
+  // Highlight newly created channel
+  document.querySelector(".channel").setAttribute("style", "border: 3px solid rgb(233, 54, 87); background-color: rgb(14, 49, 47);");
+    
+  // <<<<<<<< Clicking on a channel >>>>>>>>>>>
+  currentChannelList.forEach((node) => {
+    node.onclick = (e) => {
+      redirectUser(`${e.target.innerText}`); // Redirect
+      highlighter(`${e.target.innerText}`) // Highlight chosen channel
+    }
+  });
+
+  function redirectUser(name) {
+    let chatHeader = initialChannel;
+    chatHeader.removeChild(chatHeader.lastChild);
+    initialChannel.insertAdjacentHTML("beforeend", `${name}`);
+  }
+
+  // Hightlight the chosen channel 
+  function highlighter(name) {
+    currentChannelList.forEach((li) => {
+      li.setAttribute("style", "background-color: rgb(24, 65, 63); border: none;");
+    });
+    document.querySelector(`.chosenChannel-${name.trim()}`).setAttribute("style", "border: 3px solid rgb(233, 54, 87); background-color: rgb(14, 49, 47);");
+  }
+
+  // function makeListener(button) {
+  //   return (event) => {
+  //     event.preventDefault();
+  //     if (event.keyCode === 13) {
+  //       button.click();
+  //     }
+  //   }
+  // }
+
+
+
+
+
+
 });
+

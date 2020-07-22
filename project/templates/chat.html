@@ -12,9 +12,9 @@
         <div id="channelList" class="col overflow">
           {% for channel in defaultChannels %}
           <ul style="list-style-type:none;" class="list-group p-2">
-            <li class="channel">
+            <li class="channel chosenChannel-{{ channel|upper }}">
               <i class="fa fa-2x fa-connectdevelop fa-spin" aria-hidden="true"></i>
-              {{ channel }}
+              {{ channel|upper }}
             </li>
           </ul>
           {% endfor %}
@@ -65,11 +65,11 @@
     <!-- --- Chat area --- -->
     <div class="col-lg-8 col-md-12 col-sm-12">
       <div class="container">
-        <div class="row mt-4">
-          <div class="col-sm-12 col-md-12 col-lg-9 chat-box">
+        <div class="row mt-5">
+          <div class="col-sm-12 col-md-12 col-lg-12 chat-box">
             <div class="container">
-              <legend id="currentChannel" class="pt-3 pl-2" style="font-family: monospace"><i
-                  class="fa fa-lg fa-comments-o" aria-hidden="true"></i>&nbsp;{{ initialChannel }}</legend>
+              <legend id="initialChannel" class="pt-3 pl-2" style="font-family: monospace"><i
+                  class="fa fa-lg fa-comments-o" aria-hidden="true"></i>&nbsp;{{ initialChannel|upper }}</legend>
               <div class="container message-box-top">
                 <p class="isTying ml-2"></p>
               </div>
@@ -103,7 +103,7 @@
         </button>
       </div>
       <div class="modal-body">
-        Your channels and messages will be deleted permanently.
+        Your messages will be deleted permanently.
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
