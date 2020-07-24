@@ -338,3 +338,12 @@ body {
   color: rgba(32, 32, 32, 0.507);
   font-style: oblique;
 }
+
+.join-leave {
+  text-align: center;
+  color: rgb(182, 53, 92);
+  background-color: rgba(8, 8, 8, 0.062);
+  font-size: 18px;
+  font-family: monospace;
+  font-style: oblique;
+}
