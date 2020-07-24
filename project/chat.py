@@ -1,9 +1,9 @@
 import time
 from project import app, socketio
 from flask import render_template, url_for
-from flask_socketio import SocketIO, join_room, leave_room, emit
+from flask_socketio import SocketIO, emit
 
-defaultChannels = ["hobbies", "travel", "cooking", "sports", "news", "education"]
+defaultChannels = ["lounge", "hobbies", "travel", "cooking", "sports", "news", "education"]
 
 @app.route("/")
 def index():
@@ -12,7 +12,6 @@ def index():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    # note that we set the 404 status explicitly
     return render_template('404.html'), 404
     
 
@@ -27,20 +26,27 @@ def message(data):
     message = data["message"]
     username = data["username"]
     timestamp = time.strftime('%b-%d %I:%M%p', time.localtime())
+    channel = data["channel"]
     emit("show message", {"message": message, "username": username, 
-                        "timestamp": timestamp}, broadcast=True)
+                        "timestamp": timestamp, "channel": channel}, broadcast=True)
 
 
 @socketio.on("channel")
 def channel(data):
     newChannelName = data["newChannelName"].title()
-    defaultChannels.insert(0, newChannelName)
+    if len(defaultChannels) < 100:
+        defaultChannels.insert(0, newChannelName)
+    else:
+        defaultChannels.insert(0, newChannelName)
+        defaultChannels.remove(defaultChannels[-8])
     emit("create channel", {"newChannelName": newChannelName, "defaultChannels": defaultChannels}, newChannelName=newChannelName, broadcast=True) 
 
 
-# @socketio.on("join")
-# def join(data):
-#     username = data["username"]
-#     channel = data["channel"]
-#     join_room(channel)
-#     emit({"join notification": username + " has joined " + channel + " room."}, channel=channel)
+@socketio.on("joinLeave")
+def joinLeave(data):
+    username = data["username"]
+    channel = data["channel"]
+    oldChannel = data["oldChannel"]
+    emit("join or leave", {"joinNotif": username + " has joined " + channel + " channel.",
+                        "leaveNotif": username + " has left " + oldChannel + " channel.", 
+                    "channel": channel, "username": username, "oldChannel": oldChannel}, broadcast=True)
