@@ -27,12 +27,12 @@ function highlighter(name) {
   currentChannelList.forEach((li) => {
     li.setAttribute("style", "background-color: rgb(24, 65, 63); border: none;");
   });
-  document.querySelector(`.chosenChannel-${name.trim()}`).setAttribute("style", "border: 3px solid rgb(233, 54, 87); background-color: rgb(14, 49, 47);");
+  document.querySelector(`.chosenChannel-${name.trim().split(" ").join("-").toLowerCase()}`).setAttribute("style", "border: 3px solid rgb(233, 54, 87); background-color: rgb(14, 49, 47);");
 }
 
 // To create new channel after users submit a name
 function createChannel() {
-  // Remove button && hide text notif
+  // Remove button 
   createChannelButton.setAttribute("style", "display: none;");
   channelCreatedNotif.setAttribute("style", "display: none;");
   channelCreatedNotif.innerHTML = "";
@@ -64,12 +64,11 @@ if (username == null){
   window.location = "/";
 }
 
-// // Display username to Online User side-bar
-// document.querySelector(".online-user").insertAdjacentHTML("beforeend", `${username}`);
+// Display user name on side-bar
+document.querySelector(".main-user").insertAdjacentHTML("beforeend",`${username}`)
 
 //------------------CREATE CHANNEL-------------------------
 
-// When user clicks Create Channel button, ask for channel name.
 createChannelButton.addEventListener('click', createChannel, false);
 
 // Store new channels
@@ -79,7 +78,7 @@ const userChannel = channelStorage != null ? JSON.parse(channelStorage) : [];
 // Highlight newly created channel (first top)
 document.querySelector(".channel").setAttribute("style", "border: 3px solid rgb(233, 54, 87); background-color: rgb(14, 49, 47);");
 
-//------------Set "RETURN" key to submit------------------
+//------------Set "RETURN" key to Submit------------------
 
 typedInMsg.addEventListener("keyup", makeSend(paperPlaneButton));
 newChannelValue.addEventListener("keyup", makeSend(goToChannelButton));
@@ -95,8 +94,6 @@ logOffButton.onclick = () => {
 
 //---------------SOCKETIO - GET DATA----------------------
 
-
-// Connect to websocket
 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
 // On CONNECT 
@@ -129,10 +126,11 @@ goToChannelButton.onclick = () => {
 // JOIN or LEAVE channel
 currentChannelList.forEach((node) => {
   node.onclick = (e) => {
+    document.querySelector("#online-user-box").removeAttribute("style", "display:none");
     let oldChannel = initialChannel.innerText;
-    if (initialChannel.innerText != e.target.innerText) {
+    if (e.target.innerText !== "" && initialChannel.innerText != e.target.innerText) {
       messageContainer.innerText = "";
-      redirectUser(e.target.innerText); // Redirect
+      redirectUser(e.target.innerText); // Redirect to chosen channel
       highlighter(e.target.innerText); // Highlight chosen channel
     } else {
       return;
@@ -208,13 +206,25 @@ socket.on("join or leave", data => {
   if (initialChannel.innerText != data.channel && initialChannel.innerText != data.oldChannel) {
     return;
   } else if (initialChannel.innerText == data.oldChannel) {
-    messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.leaveNotif}</p>`);
+      messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.leaveNotif}</p>`);
+      if (username == data.username){
+        return;
+      } else {
+        // Remove username from Online User side-bar
+        let item = document.querySelector(".justJoined");
+        if (item) {item.remove();};
+      }
   } else {
-    messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.joinNotif}</p>`);
+      messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.joinNotif}</p>`);
+      if (username == data.username){
+        return;
+      } else {
+        // Add username on Online User side-bar
+        document.querySelector(".online-user-list").insertAdjacentHTML("beforeend", 
+        `<li class="justJoined online-user"><i class="fa fa-lg fa-user-o" aria-hidden="true"><i class="fa fa-circle" style="font-size: 10px; color: green" aria-hidden="true"></i></i>&nbsp;${data.username}</li>`);
+      }
   }
 
   scrollDown();
-
-  console.log(data.username)
 });
     

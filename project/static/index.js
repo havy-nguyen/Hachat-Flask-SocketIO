@@ -22,8 +22,8 @@ if (username){
   function getUsername (event) {
 
     event.preventDefault();
-    if (usernameInput.value.length < 1) {
-      txt = "Please choose a username!";
+    if (usernameInput.value.length > 10 || usernameInput.value.length < 1) {
+      txt = "Please choose a username!<br>(Maximum 10 characters)";
       document.querySelector('#txt').innerHTML = txt;
       return;
     };
