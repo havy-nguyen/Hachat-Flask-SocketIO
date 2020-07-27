@@ -4,6 +4,7 @@ from flask import render_template, url_for
 from flask_socketio import SocketIO, emit
 
 defaultChannels = ["lounge", "hobbies", "travel", "cooking", "sports", "news", "education"]
+users = []
 
 @app.route("/")
 def index():
@@ -33,20 +34,22 @@ def message(data):
 
 @socketio.on("channel")
 def channel(data):
-    newChannelName = data["newChannelName"].title()
+    newChannelName = data["newChannelName"]
     if len(defaultChannels) < 100:
         defaultChannels.insert(0, newChannelName)
     else:
         defaultChannels.insert(0, newChannelName)
         defaultChannels.remove(defaultChannels[-8])
-    emit("create channel", {"newChannelName": newChannelName, "defaultChannels": defaultChannels}, newChannelName=newChannelName, broadcast=True) 
+    emit("create channel", {"newChannelName": newChannelName, "defaultChannels": defaultChannels}, broadcast=True) 
 
 
 @socketio.on("joinLeave")
 def joinLeave(data):
     username = data["username"]
+    if username not in users:
+        users.append(username)
     channel = data["channel"]
     oldChannel = data["oldChannel"]
     emit("join or leave", {"joinNotif": username + " has joined " + channel + " channel.",
                         "leaveNotif": username + " has left " + oldChannel + " channel.", 
-                    "channel": channel, "username": username, "oldChannel": oldChannel}, broadcast=True)
+                    "channel": channel, "username": username, "oldChannel": oldChannel, "users": users}, broadcast=True)
