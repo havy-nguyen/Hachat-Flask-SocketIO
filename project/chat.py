@@ -4,7 +4,9 @@ from flask import render_template, url_for
 from flask_socketio import SocketIO, emit
 
 defaultChannels = ["lounge", "hobbies", "travel", "cooking", "sports", "news", "education"]
-users = []
+messageList = []
+users = {}
+
 
 @app.route("/")
 def index():
@@ -28,8 +30,14 @@ def message(data):
     username = data["username"]
     timestamp = time.strftime('%b-%d %I:%M%p', time.localtime())
     channel = data["channel"]
+    msg = [channel.strip(), username, message, timestamp]
+    if len(messageList) < 200:
+        messageList.append(msg)
+    else:
+        messageList.append(msg)
+        messageList.remove(messageList[0])
     emit("show message", {"message": message, "username": username, 
-                        "timestamp": timestamp, "channel": channel}, broadcast=True)
+                "timestamp": timestamp, "channel": channel}, broadcast=True)
 
 
 @socketio.on("channel")
@@ -45,11 +53,11 @@ def channel(data):
 
 @socketio.on("joinLeave")
 def joinLeave(data):
-    username = data["username"]
-    if username not in users:
-        users.append(username)
     channel = data["channel"]
+    username = data["username"]
     oldChannel = data["oldChannel"]
+    users[username] = channel
     emit("join or leave", {"joinNotif": username + " has joined " + channel + " channel.",
                         "leaveNotif": username + " has left " + oldChannel + " channel.", 
-                    "channel": channel, "username": username, "oldChannel": oldChannel, "users": users}, broadcast=True)
+                    "channel": channel, "username": username, "oldChannel": oldChannel, 
+                    "messageList": messageList, "users": users}, broadcast=True)

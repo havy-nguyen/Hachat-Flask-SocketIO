@@ -64,8 +64,16 @@ if (username == null){
   window.location = "/";
 }
 
-// Display user name on side-bar
+// Display user name on top of side-bar
 document.querySelector(".main-user").insertAdjacentHTML("beforeend",`${username}`)
+
+// Redirect user to the last channel they're in
+if (localStorage.getItem('chosenChannel')) {
+  let li = localStorage.getItem('chosenChannel');
+  window.onload = function() {
+    document.querySelector(`.chosenChannel-${li.trim().split(" ").join("-").toLowerCase()}`).click();
+  }
+}
 
 //------------------CREATE CHANNEL-------------------------
 
@@ -86,8 +94,7 @@ newChannelValue.addEventListener("keyup", makeSend(goToChannelButton));
 //------------------SIGN OUT--------------------------------
 
 logOffButton.onclick = () => {
-  localStorage.removeItem('username');
-  localStorage.removeItem('userChannel');
+  localStorage.clear();
   // Go to index
   window.location = "/chat";
 }
@@ -124,17 +131,29 @@ goToChannelButton.onclick = () => {
 }
 
 // JOIN or LEAVE channel
+
 currentChannelList.forEach((node) => {
   node.onclick = (e) => {
     document.querySelector("#online-user-box").removeAttribute("style", "display:none");
+  
     let oldChannel = initialChannel.innerText;
+    localStorage.setItem('chosenChannel', e.target.innerText); // Save chosen channel to local storage
+
+    // Clear list
+    if (oldChannel != e.target.innerText){
+      document.querySelectorAll(".online-user-list").forEach((li) => {li.innerText = ""});
+    } else {
+      return;
+    }
+
     if (e.target.innerText !== "" && initialChannel.innerText != e.target.innerText) {
-      messageContainer.innerText = "";
+      messageContainer.innerText = ""; // Clear box
       redirectUser(e.target.innerText); // Redirect to chosen channel
       highlighter(e.target.innerText); // Highlight chosen channel
     } else {
       return;
     }
+    
     socket.emit("joinLeave", {"channel": e.target.innerText, "oldChannel": oldChannel, "username": username});
   }
 });
@@ -199,32 +218,63 @@ socket.on("create channel", data => {
 });
 
 
-// Emit JOIN or LEAVE notification
+// Emit JOIN || LEAVE 
 
 socket.on("join or leave", data => {
-
-  if (initialChannel.innerText != data.channel && initialChannel.innerText != data.oldChannel) {
-    return;
-  } else if (initialChannel.innerText == data.oldChannel) {
-      messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.leaveNotif}</p>`);
-      if (username == data.username){
-        return;
+  
+  // Load previous messages
+  if (username == data.username){
+    let msgList = data.messageList;
+    msgList.reverse().forEach((li) => {
+      if (li[0] == data.channel.trim()){
+        if (li[1] != data.username) {
+          messageContainer.insertAdjacentHTML("afterbegin", `<div id="bubble" class="container text-wrap">
+          <div class="row">
+            <div class="text-wrap message-bubble" style="background-color: #f5e6e7; border: 1px solid #018a2a;">
+              <h6 class="bubble-author" style="color: #018a2a">${li[1]}</h6>
+              <span class="bubble-content">${li[2]}</span>
+              &nbsp;<span class="bubble-timestamp float-right navbar-fixed-bottom pt-1">${li[3]}</span>
+            </div>
+          </div>
+        </div>`);
+        } else {
+          messageContainer.insertAdjacentHTML("afterbegin",
+          `<div id="bubble" class="container text-wrap">
+          <div class="row ml-1">
+            <div class="text-wrap message-bubble ml-auto">
+              <h6 class="bubble-author">${li[1]}</h6>
+              <span class="bubble-content">${li[2]}</span>
+              &nbsp;<span class="bubble-timestamp float-right navbar-fixed-bottom pt-1">${li[3]}</span>
+            </div>
+          </div>
+        </div>`);
+        }
       } else {
-        // Remove username from Online User side-bar
-        let item = document.querySelector(".justJoined");
-        if (item) {item.remove();};
+        return;
       }
+    });
   } else {
+      //  Display join || leave notifications
+    if (initialChannel.innerText != data.channel && initialChannel.innerText != data.oldChannel) {
+      return;
+    } else if (initialChannel.innerText == data.oldChannel) {
+      location.reload();
+      messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.leaveNotif}</p>`);
+    } else {
       messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.joinNotif}</p>`);
-      if (username == data.username){
-        return;
-      } else {
-        // Add username on Online User side-bar
-        document.querySelector(".online-user-list").insertAdjacentHTML("beforeend", 
-        `<li class="justJoined online-user"><i class="fa fa-lg fa-user-o" aria-hidden="true"><i class="fa fa-circle" style="font-size: 10px; color: green" aria-hidden="true"></i></i>&nbsp;${data.username}</li>`);
-      }
-  }
+    }
+  };
+  
+  // Load online users who are in the channel
+  let userList = data.users;
 
+  for (person in userList) {
+    if (userList[person] == data.channel && !document.querySelector(`.${person}`)) {
+      document.querySelector(".online-user-list").insertAdjacentHTML("beforeend", 
+       `<li class="${person} online-user"><i class="fa fa-lg fa-user-o" aria-hidden="true"><i class="fa fa-circle" style="font-size: 10px; color: green" aria-hidden="true"></i></i>&nbsp;${person}</li>`);
+      }
+    }
+  
   scrollDown();
 });
-    
+
