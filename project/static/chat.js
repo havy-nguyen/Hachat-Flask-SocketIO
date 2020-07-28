@@ -258,8 +258,10 @@ socket.on("join or leave", data => {
     if (initialChannel.innerText != data.channel && initialChannel.innerText != data.oldChannel) {
       return;
     } else if (initialChannel.innerText == data.oldChannel) {
-      location.reload();
       messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.leaveNotif}</p>`);
+      setTimeout(function(){
+        location.reload();
+       }, 5000);
     } else {
       messageContainer.insertAdjacentHTML("beforeend", `<p class="join-leave">${data.joinNotif}</p>`);
     }
