@@ -38,7 +38,6 @@
 
 
 ### Quick start
-Youtube demo - [Hachat](https://youtu.be/KgfMvS1jhfc)
 
 #### Install requirement.txt
 ```
