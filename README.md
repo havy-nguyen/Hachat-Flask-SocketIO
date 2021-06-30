@@ -49,6 +49,3 @@ pip3 install -r requirements.txt
 python3 application.py
 ```
 
-
-
-![image](https://drive.google.com/uc?export=view&id=1OYKQKrrHl3wtyuyWpNdR4NJ8n7CyWIcE)
